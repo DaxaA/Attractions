@@ -16,6 +16,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.hibernate:hibernate-core:5.6.1.Final'
+    implementation 'org.postgresql:postgresql:42.3.2'
 }
 
 springBoot {
