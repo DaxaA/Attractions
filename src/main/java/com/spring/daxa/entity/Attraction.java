@@ -1,6 +1,7 @@
 package com.spring.daxa.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,12 +26,20 @@ public class Attraction {
     @Column(name = "review_id")
     private Long reviewId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id", insertable = false, updatable = false)
     private City city;
 
     @OneToMany(mappedBy = "attraction", cascade = CascadeType.ALL)
     private List<Review> reviewList;
+
+    public void addReviewToList(Review review) {
+        if(reviewList == null) {
+            reviewList = new ArrayList<>();
+        }
+        reviewList.add(review);
+        review.setAttraction(this);
+    }
 
     public Attraction() {}
 

@@ -1,6 +1,8 @@
 package com.spring.daxa.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "cities")
@@ -14,9 +16,16 @@ public class City {
     @Column(name = "number")
     private Long number;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    private Attraction attraction;
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
+    private List<Attraction> attractionList;
+
+    public void addReviewToList(Attraction attraction) {
+        if(attractionList == null) {
+            attractionList = new ArrayList<>();
+        }
+        attractionList.add(attraction);
+        attraction.setCity(this);
+    }
 
     public City() {}
 
@@ -50,11 +59,11 @@ public class City {
         this.number = number;
     }
 
-    public Attraction getAttraction() {
-        return attraction;
+    public List<Attraction> getAttractionList() {
+        return attractionList;
     }
 
-    public void setAttraction(Attraction attraction) {
-        this.attraction = attraction;
+    public void setAttractionList(List<Attraction> attractionList) {
+        this.attractionList = attractionList;
     }
 }
