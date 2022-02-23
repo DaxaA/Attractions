@@ -3,16 +3,20 @@ package com.spring.daxa.entity;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "reviews")
 public class Review {
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column
+    @Column(name = "rate")
     private int rate;
-    @Column
+    @Column(name = "review")
     private String review;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", referencedColumnName = "review_id", insertable = false, updatable = false)
+    private Attraction attraction;
 
     public Review() {}
 
@@ -44,5 +48,13 @@ public class Review {
 
     public void setReview(String review) {
         this.review = review;
+    }
+
+    public Attraction getAttraction() {
+        return attraction;
+    }
+
+    public void setAttraction(Attraction attraction) {
+        this.attraction = attraction;
     }
 }

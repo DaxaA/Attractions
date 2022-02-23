@@ -1,40 +1,48 @@
 package com.spring.daxa.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table
+@Table(name = "attractions")
 public class Attraction {
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column
-    private Long cityid;
-    @Column
+    @Column(name = "city_id")
+    private Long cityId;
+    @Column(name = "name")
     private String name;
-    @Column
+    @Column(name = "category")
     private String category;
-    @Column
+    @Column(name = "coordinates")
     private double coordinates;
-    @Column
+    @Column(name = "information")
     private String information;
-    @Column
-    private double midrate;
-    @Column
-    private Long reviewid;
+    @Column(name = "middle_rate")
+    private double midRate;
+    @Column(name = "review_id")
+    private Long reviewId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "city_id", insertable = false, updatable = false)
+    private City city;
+
+    @OneToMany(mappedBy = "attraction", cascade = CascadeType.ALL)
+    private List<Review> reviewList;
 
     public Attraction() {}
 
-    public Attraction(Long id, Long cityid, String name, String category, double coordinates, String information, double midrate, Long reviewid) {
+    public Attraction(Long id, Long cityId, String name, String category, double coordinates, String information, double midRate, Long reviewId) {
         this.id = id;
-        this.cityid = cityid;
+        this.cityId = cityId;
         this.name = name;
         this.category = category;
         this.coordinates = coordinates;
         this.information = information;
-        this.midrate = midrate;
-        this.reviewid = reviewid;
+        this.midRate = midRate;
+        this.reviewId = reviewId;
     }
 
     public Long getId() {
@@ -45,12 +53,12 @@ public class Attraction {
         this.id = id;
     }
 
-    public Long getCityid() {
-        return cityid;
+    public Long getCityId() {
+        return cityId;
     }
 
-    public void setCityid(Long cityid) {
-        this.cityid = cityid;
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
     public String getName() {
@@ -85,19 +93,35 @@ public class Attraction {
         this.information = information;
     }
 
-    public double getMidrate() {
-        return midrate;
+    public double getMidRate() {
+        return midRate;
     }
 
-    public void setMidrate(double midrate) {
-        this.midrate = midrate;
+    public void setMidRate(double midRate) {
+        this.midRate = midRate;
     }
 
-    public Long getReviewid() {
-        return reviewid;
+    public Long getReviewId() {
+        return reviewId;
     }
 
-    public void setReviewid(Long reviewid) {
-        this.reviewid = reviewid;
+    public void setReviewId(Long reviewId) {
+        this.reviewId = reviewId;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<Review> reviewList) {
+        this.reviewList = reviewList;
     }
 }
