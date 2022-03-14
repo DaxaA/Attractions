@@ -1,15 +1,14 @@
 package com.spring.daxa.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "cities")
 public class City {
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -18,14 +17,6 @@ public class City {
 
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
     private List<Attraction> attractionList;
-
-    public void addReviewToList(Attraction attraction) {
-        if(attractionList == null) {
-            attractionList = new ArrayList<>();
-        }
-        attractionList.add(attraction);
-        attraction.setCity(this);
-    }
 
     public City() {}
 

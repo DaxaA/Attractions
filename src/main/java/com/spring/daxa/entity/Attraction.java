@@ -8,50 +8,36 @@ import java.util.List;
 @Table(name = "attractions")
 public class Attraction {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "city_id")
-    private Long cityId;
     @Column(name = "name")
     private String name;
     @Column(name = "category")
     private String category;
     @Column(name = "coordinates")
-    private double coordinates;
+    private Double coordinates;
     @Column(name = "information")
     private String information;
     @Column(name = "middle_rate")
-    private double midRate;
-    @Column(name = "review_id")
-    private Long reviewId;
+    private Double midRate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "city_id", insertable = false, updatable = false)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "city_id")
     private City city;
 
     @OneToMany(mappedBy = "attraction", cascade = CascadeType.ALL)
     private List<Review> reviewList;
 
-    public void addReviewToList(Review review) {
-        if(reviewList == null) {
-            reviewList = new ArrayList<>();
-        }
-        reviewList.add(review);
-        review.setAttraction(this);
-    }
-
     public Attraction() {}
 
-    public Attraction(Long id, Long cityId, String name, String category, double coordinates, String information, double midRate, Long reviewId) {
+    public Attraction(Long id, String name, String category, double coordinates, String information, double midRate) {
         this.id = id;
-        this.cityId = cityId;
         this.name = name;
         this.category = category;
         this.coordinates = coordinates;
         this.information = information;
         this.midRate = midRate;
-        this.reviewId = reviewId;
     }
 
     public Long getId() {
@@ -60,14 +46,6 @@ public class Attraction {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getCityId() {
-        return cityId;
-    }
-
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
     }
 
     public String getName() {
@@ -108,14 +86,6 @@ public class Attraction {
 
     public void setMidRate(double midRate) {
         this.midRate = midRate;
-    }
-
-    public Long getReviewId() {
-        return reviewId;
-    }
-
-    public void setReviewId(Long reviewId) {
-        this.reviewId = reviewId;
     }
 
     public City getCity() {

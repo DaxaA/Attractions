@@ -6,16 +6,16 @@ import javax.persistence.*;
 @Table(name = "reviews")
 public class Review {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "rate")
-    private int rate;
+    private Integer rate;
     @Column(name = "review")
     private String review;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "review_id", insertable = false, updatable = false)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "attraction_id")
     private Attraction attraction;
 
     public Review() {}
