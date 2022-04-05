@@ -1,13 +1,18 @@
 package com.spring.daxa.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "cities")
 public class City {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name")
@@ -24,37 +29,5 @@ public class City {
         this.id = id;
         this.name = name;
         this.number = number;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getNumber() {
-        return number;
-    }
-
-    public void setNumber(Long number) {
-        this.number = number;
-    }
-
-    public List<Attraction> getAttractionList() {
-        return attractionList;
-    }
-
-    public void setAttractionList(List<Attraction> attractionList) {
-        this.attractionList = attractionList;
     }
 }
