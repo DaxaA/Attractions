@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,7 @@ public class City {
     private Long number;
 
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
-    private List<Attraction> attractionList;
+    private List<Attraction> attractionList = new ArrayList<>();
 
     public City() {}
 

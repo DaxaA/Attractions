@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "reviews")
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "rate")
@@ -25,8 +25,7 @@ public class Review {
 
     public Review() {}
 
-    public Review(Long id, int rate, String review) {
-        this.id = id;
+    public Review(Integer rate, String review) {
         this.rate = rate;
         this.review = review;
     }
