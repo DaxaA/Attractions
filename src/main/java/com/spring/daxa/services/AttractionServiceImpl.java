@@ -74,7 +74,7 @@ public class AttractionServiceImpl implements AttractionService {
             }
             i++;
         }
-        cr.select(root).where(predicates);
+        cr.select(root).where(predicates).orderBy(cb.asc(root.get("longitude")), cb.asc(root.get("latitude")));
         TypedQuery<Attraction> query = entityManager.createQuery(cr);
         return query.getResultList();
     }
