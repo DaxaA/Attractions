@@ -1,5 +1,5 @@
 package com.spring.daxa.enums;
 
 public enum Category {
-    military, culture, religious, historical, nature
+    MILITARY, CULTURE, RELIGIOUS, HISTORICAL, NATURE
 }

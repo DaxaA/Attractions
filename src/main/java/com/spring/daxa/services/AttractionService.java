@@ -1,18 +1,23 @@
 package com.spring.daxa.services;
 
+import com.spring.daxa.dto.AttractionDto;
+import com.spring.daxa.dto.ReviewDto;
 import com.spring.daxa.entity.Attraction;
-import com.spring.daxa.enums.Category;
-import com.spring.daxa.entity.City;
+import com.spring.daxa.entity.Review;
 
 import java.util.List;
 
 public interface AttractionService {
-    List<Attraction> getAttractionsByLongitudeAndLatitude(Double longitude, Double latitude, List<Attraction> attractionList);
-    List<Attraction> getAttractionsByLongitudeAndLatitudeAndCategory(Double longitude, Double latitude, Category category);
+    List<Attraction> getAttractionsByLongitudeAndLatitude(Double longitude, Double latitude);
+    List<Attraction> getAttractionsByLongitudeAndLatitudeAndCategory(Double longitude, Double latitude, String category);
     List<Attraction> getAttractionsByLongitudeAndLatitudeAndMidRate(Double longitude, Double latitude, Double midRate);
-    List<Attraction> getAttractionsByCityAndCategory(City city, Category category);
-    List<Attraction> getAttractionsByCityAndMidRate(City city, Double midRate);
-    String getInformationAndMiddleRate(Attraction attraction);
-    void setRate(Attraction attraction, Integer rate);
-    void setRateAndReview(Attraction attraction, Integer rate, String review);
+    List<Attraction> getAttractionsByCityAndCategory(String city, String category);
+    List<Attraction> getAttractionsByCityAndMidRate(String city, Double midRate);
+
+    String getInformationAndMiddleRate(String attraction);
+
+    List<Attraction> showAllAttractions();
+    List<AttractionDto> createAttractionList(List<Attraction> attractions);
+
+    List<ReviewDto> showReviewList(String attraction);
 }

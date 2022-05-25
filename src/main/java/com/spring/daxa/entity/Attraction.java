@@ -51,21 +51,16 @@ public class Attraction {
         this.city = city;
     }
 
-    public Object getProperty(AttractionFields key) {
-        if (key == AttractionFields.ID) {
-            return id;
-        } else if (key == AttractionFields.NAME) {
-            return name;
-        }  else if (key == AttractionFields.CATEGORY) {
-            return category;
-        } else if (key == AttractionFields.LONGITUDE) {
-            return longitude;
-        }else if (key == AttractionFields.LATITUDE) {
-            return latitude;
-        }else if (key == AttractionFields.INFORMATION) {
-            return information;
-        }else {
-            return midRate;
+    /*public Object getProperty(AttractionFields key) {
+        switch(key) {
+            case ID: return id;
+            case NAME: return name;
+            case CATEGORY: return category;
+            case LONGITUDE: return longitude;
+            case LATITUDE: return latitude;
+            case INFORMATION: return information;
+            case MIDRATE: return midRate;
         }
-    }
+        return city;
+    }*/
 }
