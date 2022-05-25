@@ -3,7 +3,6 @@ package com.spring.daxa.controllers;
 import com.spring.daxa.dto.AttractionDto;
 import com.spring.daxa.dto.ReviewDto;
 import com.spring.daxa.entity.Attraction;
-import com.spring.daxa.entity.Review;
 import com.spring.daxa.services.AttractionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -76,6 +75,12 @@ public class AttractionController {
 
     @GetMapping("/{attraction}/reviews")
     public List<ReviewDto> getReviewList(@PathVariable String attraction) {
+        return attractionService.showReviewList(attraction);
+    }
+
+    @PostMapping("/{attraction}/reviews/new/{rate}/{review}")
+    public List<ReviewDto> setReviewForAttraction(@PathVariable String attraction, @PathVariable Integer rate, @PathVariable String review) {
+        attractionService.setReview(attraction, rate, review);
         return attractionService.showReviewList(attraction);
     }
 }

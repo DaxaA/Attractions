@@ -4,7 +4,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgresAttraction
     username: rootuser
     password: trust
-
   jpa:
     show-sql: true
     properties:

@@ -13,11 +13,9 @@ public interface AttractionService {
     List<Attraction> getAttractionsByLongitudeAndLatitudeAndMidRate(Double longitude, Double latitude, Double midRate);
     List<Attraction> getAttractionsByCityAndCategory(String city, String category);
     List<Attraction> getAttractionsByCityAndMidRate(String city, Double midRate);
-
     String getInformationAndMiddleRate(String attraction);
-
     List<Attraction> showAllAttractions();
     List<AttractionDto> createAttractionList(List<Attraction> attractions);
-
     List<ReviewDto> showReviewList(String attraction);
+    void setReview(String attraction, Integer rate, String review);
 }

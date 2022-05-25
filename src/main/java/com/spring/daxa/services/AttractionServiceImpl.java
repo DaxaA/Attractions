@@ -3,11 +3,11 @@ package com.spring.daxa.services;
 import com.spring.daxa.dto.AttractionDto;
 import com.spring.daxa.dto.ReviewDto;
 import com.spring.daxa.entity.Attraction;
-import com.spring.daxa.entity.City;
 import com.spring.daxa.entity.Review;
 import com.spring.daxa.enums.AttractionFields;
 import com.spring.daxa.enums.Category;
 import com.spring.daxa.repositories.AttractionRepository;
+import com.spring.daxa.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +23,8 @@ import java.util.*;
 public class AttractionServiceImpl implements AttractionService {
     private final AttractionRepository attractionRepository;
     Map<AttractionFields, Object> fieldsMap;
-
     private final EntityManager entityManager;
-    private CriteriaBuilder cb;
+    private final CriteriaBuilder cb;
 
     @Autowired
     public AttractionServiceImpl(AttractionRepository attractionRepository, EntityManager entityManager) {
@@ -56,21 +55,11 @@ public class AttractionServiceImpl implements AttractionService {
         int i = 0;
         for (Map.Entry<AttractionFields, Object> af : criteria.entrySet()) {
             switch (af.getKey()) {
-                case LONGITUDE:
-                    predicates[i] = cb.between(root.get("longitude"), Math.abs((Double) af.getValue() - 15), ((Double) af.getValue() + 15));
-                    break;
-                case LATITUDE:
-                    predicates[i] = cb.between(root.get("latitude"), Math.abs((Double) af.getValue() - 15), ((Double) af.getValue() + 15));
-                    break;
-                case CATEGORY:
-                    predicates[i] = cb.equal(root.get("category"), af.getValue());
-                    break;
-                case MIDRATE:
-                    predicates[i] = cb.gt(root.get("midRate"), ((Double) af.getValue() - 0.1));
-                    break;
-                case CITY:
-                    predicates[i] = root.get("city").get("name").in(af.getValue());
-                    break;
+                case LONGITUDE -> predicates[i] = cb.between(root.get("longitude"), Math.abs((Double) af.getValue() - 15), ((Double) af.getValue() + 15));
+                case LATITUDE -> predicates[i] = cb.between(root.get("latitude"), Math.abs((Double) af.getValue() - 15), ((Double) af.getValue() + 15));
+                case CATEGORY -> predicates[i] = cb.equal(root.get("category"), af.getValue());
+                case MIDRATE -> predicates[i] = cb.gt(root.get("midRate"), ((Double) af.getValue() - 0.1));
+                case CITY -> predicates[i] = root.get("city").get("name").in(af.getValue());
             }
             i++;
         }
@@ -147,6 +136,18 @@ public class AttractionServiceImpl implements AttractionService {
             dto.add(new ReviewDto(rev.getId(), rev.getRate(), rev.getReview()));
         }
         return dto;
+    }
+
+    @Override
+    public void setReview(String attraction, Integer rate, String review) {
+        Attraction attr = new Attraction();
+        for (Attraction a : showAllAttractions()) {
+            if (a.getName().equals(attraction)) attr = a;
+        }
+        Review rev = new Review(rate, review);
+        rev.setAttraction(attr);
+        attr.getReviewList().add(rev);
+        attractionRepository.save(attr);
     }
 
     Category convertCategory(String category) {
