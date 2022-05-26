@@ -1,8 +1,13 @@
 package com.spring.daxa.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "reviews")
 public class Review {
     @Id
@@ -20,41 +25,8 @@ public class Review {
 
     public Review() {}
 
-    public Review(Long id, int rate, String review) {
-        this.id = id;
+    public Review(Integer rate, String review) {
         this.rate = rate;
         this.review = review;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getRate() {
-        return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
-    }
-
-    public String getReview() {
-        return review;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
-    }
-
-    public Attraction getAttraction() {
-        return attraction;
-    }
-
-    public void setAttraction(Attraction attraction) {
-        this.attraction = attraction;
     }
 }
