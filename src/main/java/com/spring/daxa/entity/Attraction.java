@@ -50,17 +50,4 @@ public class Attraction {
         this.midRate = midRate;
         this.city = city;
     }
-
-    /*public Object getProperty(AttractionFields key) {
-        switch(key) {
-            case ID: return id;
-            case NAME: return name;
-            case CATEGORY: return category;
-            case LONGITUDE: return longitude;
-            case LATITUDE: return latitude;
-            case INFORMATION: return information;
-            case MIDRATE: return midRate;
-        }
-        return city;
-    }*/
 }
