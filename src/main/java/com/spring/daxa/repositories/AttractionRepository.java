@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface AttractionRepository extends JpaRepository<Attraction, Long> {
     @Query(value = "select information, middle_rate from attractions where name = ?1", nativeQuery = true)
+    //@Query(value = "select information from attractions where name = ?1", nativeQuery = true)
     List<Object> getInformationAndMiddleRate(String attraction);
 }
