@@ -29,11 +29,7 @@ public class AttractionController {
 
     @GetMapping("/city/{city}")
     public List<AttractionDto> getByCityName(@PathVariable String city) {
-        List<Attraction> attractionByCity = new ArrayList<>();
-        for (Attraction a : attractionService.showAllAttractions()) {
-            if (Objects.equals(a.getCity().getName(), city))
-                attractionByCity.add(a);
-        }
+        List<Attraction> attractionByCity = attractionService.getAttractionByCityName(city);
         return attractionService.createAttractionList(attractionByCity);
     }
 
@@ -69,7 +65,7 @@ public class AttractionController {
     }
 
     @GetMapping("/{attraction}")
-    public String getOnlyInfoAndMidRate(@PathVariable String attraction) {
+    public List<Object> getOnlyInfoAndMidRate(@PathVariable String attraction) {
         return attractionService.getInformationAndMiddleRate(attraction);
     }
 

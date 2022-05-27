@@ -7,7 +7,6 @@ import com.spring.daxa.entity.Review;
 import com.spring.daxa.enums.AttractionFields;
 import com.spring.daxa.enums.Category;
 import com.spring.daxa.repositories.AttractionRepository;
-import com.spring.daxa.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +32,7 @@ public class AttractionServiceImpl implements AttractionService {
         cb = entityManager.getCriteriaBuilder();
     }
 
+    //generating clear output for attraction
     @Override
     public List<AttractionDto> createAttractionList(List<Attraction> attractionList) {
         List<AttractionDto> dto = new ArrayList<>();
@@ -43,11 +43,13 @@ public class AttractionServiceImpl implements AttractionService {
         return dto;
     }
 
+    //list of all attractions
     @Override
     public List<Attraction> showAllAttractions() {
         return attractionRepository.findAll();
     }
 
+    //general method for search by criteria
     public List<Attraction> getAttractionsByCriteria(Map<AttractionFields, Object> criteria) {
         CriteriaQuery<Attraction> cr = cb.createQuery(Attraction.class);
         Root<Attraction> root = cr.from(Attraction.class);
@@ -66,6 +68,14 @@ public class AttractionServiceImpl implements AttractionService {
         cr.select(root).where(predicates).orderBy(cb.asc(root.get("longitude")), cb.asc(root.get("latitude")));
         TypedQuery<Attraction> query = entityManager.createQuery(cr);
         return query.getResultList();
+    }
+
+    //lis of nearby attractions in a city
+    @Override
+    public List<Attraction> getAttractionByCityName(String city) {
+        fieldsMap = new HashMap<>();
+        fieldsMap.put(AttractionFields.CITY, city);
+        return getAttractionsByCriteria(fieldsMap);
     }
 
     //list of nearby attractions
@@ -117,14 +127,11 @@ public class AttractionServiceImpl implements AttractionService {
 
     //string with a description of the attraction and its middle rate
     @Override
-    public String getInformationAndMiddleRate(String attraction) {
-        Attraction attr= new Attraction();
-        for (Attraction a : showAllAttractions()) {
-            if (a.getName().equals(attraction)) attr = a;
-        }
-        return "Attraction: " + attr.getName() + ".\nDescription: " + attr.getInformation() + ".\nMiddle rate: " + attr.getMidRate() + ".";
+    public List<Object> getInformationAndMiddleRate(String attraction) {
+        return attractionRepository.getInformationAndMiddleRate(attraction);
     }
 
+    //list of reviews for selected attraction
     @Override
     public List<ReviewDto> showReviewList(String attraction) {
         Attraction attr = new Attraction();
@@ -138,6 +145,7 @@ public class AttractionServiceImpl implements AttractionService {
         return dto;
     }
 
+    //setting review for attraction
     @Override
     public void setReview(String attraction, Integer rate, String review) {
         Attraction attr = new Attraction();
@@ -150,6 +158,7 @@ public class AttractionServiceImpl implements AttractionService {
         attractionRepository.save(attr);
     }
 
+    //for converting from string to enum
     Category convertCategory(String category) {
         Category categoryEnum = null;
         if ("military".equals(category)) {
