@@ -26,7 +26,11 @@ public class Review {
     public Review() {}
 
     public Review(Integer rate, String review) {
-        this.rate = rate;
+        if (rate > 5) {
+            this.rate = 5;
+        } else {
+            this.rate = rate;
+        }
         this.review = review;
     }
 }

@@ -38,16 +38,19 @@ public class Attraction {
     @OneToMany(mappedBy = "attraction", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 
-    public Attraction() {}
+    public Attraction() {
+        setMidRate();
+    }
 
-    public Attraction(Long id, String name, Category category, Double longitude, Double latitude, String information, Double midRate, City city) {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.information = information;
-        this.midRate = midRate;
-        this.city = city;
+    public void setMidRate() {
+        if (reviewList.size() == 0) {
+            this.midRate = 0.0;
+        } else {
+            Integer rates = 0;
+            for (Review review : reviewList) {
+                rates += review.getRate();
+            }
+            this.midRate = (double) rates / (double) reviewList.size();
+        }
     }
 }

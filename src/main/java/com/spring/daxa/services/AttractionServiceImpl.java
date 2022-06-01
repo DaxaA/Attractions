@@ -155,6 +155,7 @@ public class AttractionServiceImpl implements AttractionService {
         Review rev = new Review(rate, review);
         rev.setAttraction(attr);
         attr.getReviewList().add(rev);
+        attr.setMidRate();
         attractionRepository.save(attr);
     }
 
