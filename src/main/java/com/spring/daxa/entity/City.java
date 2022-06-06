@@ -1,6 +1,7 @@
 package com.spring.daxa.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "cities")
 public class City {
     @Id
@@ -23,12 +25,4 @@ public class City {
 
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
     private List<Attraction> attractionList = new ArrayList<>();
-
-    public City() {}
-
-    public City(int id, String name, Long number) {
-        this.id = id;
-        this.name = name;
-        this.number = number;
-    }
 }

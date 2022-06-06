@@ -1,6 +1,5 @@
 package com.spring.daxa.entity;
 
-import com.spring.daxa.enums.AttractionFields;
 import com.spring.daxa.enums.Category;
 import lombok.Getter;
 import lombok.Setter;
