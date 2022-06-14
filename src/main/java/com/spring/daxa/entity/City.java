@@ -20,8 +20,6 @@ public class City {
 
     @Column(name = "name")
     private String name;
-    @Column(name = "number")
-    private Long number;
 
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
     private List<Attraction> attractionList = new ArrayList<>();

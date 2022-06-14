@@ -41,6 +41,17 @@ public class Attraction {
         setMidRate();
     }
 
+    public Attraction(Long id, String name, Category category, Double longitude, Double latitude, String information, City city) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.information = information;
+        setMidRate();
+        this.city = city;
+    }
+
     public void setMidRate() {
         if (reviewList.size() == 0) {
             this.midRate = 0.0;

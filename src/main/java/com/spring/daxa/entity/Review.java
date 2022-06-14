@@ -26,7 +26,7 @@ public class Review {
     private Attraction attraction;
 
     public Review(Integer rate, String review) {
-        if (rate > 5) {
+        if (rate >= 5) {
             this.rate = 5;
         } else {
             this.rate = rate;
