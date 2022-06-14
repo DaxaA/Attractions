@@ -23,13 +23,11 @@ public class AttractionServiceImpl implements AttractionService {
     private final AttractionRepository attractionRepository;
     Map<AttractionFields, Object> fieldsMap;
     private final EntityManager entityManager;
-    private final CriteriaBuilder cb;
 
     @Autowired
     public AttractionServiceImpl(AttractionRepository attractionRepository, EntityManager entityManager) {
         this.attractionRepository = attractionRepository;
         this.entityManager = entityManager;
-        cb = entityManager.getCriteriaBuilder();
     }
 
     //generating clear output for attraction
@@ -51,22 +49,23 @@ public class AttractionServiceImpl implements AttractionService {
 
     //general method for search by criteria
     public List<Attraction> getAttractionsByCriteria(Map<AttractionFields, Object> criteria) {
-        CriteriaQuery<Attraction> cr = cb.createQuery(Attraction.class);
-        Root<Attraction> root = cr.from(Attraction.class);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Attraction> criteriaQuery = criteriaBuilder.createQuery(Attraction.class);
+        Root<Attraction> root = criteriaQuery.from(Attraction.class);
         Predicate[] predicates = new Predicate[criteria.size()];
         int i = 0;
         for (Map.Entry<AttractionFields, Object> af : criteria.entrySet()) {
             switch (af.getKey()) {
-                case LONGITUDE -> predicates[i] = cb.between(root.get("longitude"), Math.abs((Double) af.getValue() - 15), ((Double) af.getValue() + 15));
-                case LATITUDE -> predicates[i] = cb.between(root.get("latitude"), Math.abs((Double) af.getValue() - 15), ((Double) af.getValue() + 15));
-                case CATEGORY -> predicates[i] = cb.equal(root.get("category"), af.getValue());
-                case MIDRATE -> predicates[i] = cb.gt(root.get("midRate"), ((Double) af.getValue() - 0.1));
+                case LONGITUDE -> predicates[i] = criteriaBuilder.between(root.get("longitude"), Math.abs((Double) af.getValue() - 15), ((Double) af.getValue() + 15));
+                case LATITUDE -> predicates[i] = criteriaBuilder.between(root.get("latitude"), Math.abs((Double) af.getValue() - 15), ((Double) af.getValue() + 15));
+                case CATEGORY -> predicates[i] = criteriaBuilder.equal(root.get("category"), af.getValue());
+                case MIDRATE -> predicates[i] = criteriaBuilder.gt(root.get("midRate"), ((Double) af.getValue() - 0.1));
                 case CITY -> predicates[i] = root.get("city").get("name").in(af.getValue());
             }
             i++;
         }
-        cr.select(root).where(predicates).orderBy(cb.asc(root.get("longitude")), cb.asc(root.get("latitude")));
-        TypedQuery<Attraction> query = entityManager.createQuery(cr);
+        criteriaQuery.select(root).where(predicates).orderBy(criteriaBuilder.asc(root.get("longitude")), criteriaBuilder.asc(root.get("latitude")));
+        TypedQuery<Attraction> query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
     }
 
@@ -140,7 +139,7 @@ public class AttractionServiceImpl implements AttractionService {
         }
         List<ReviewDto> dto = new ArrayList<>();
         for (Review rev: attr.getReviewList()) {
-            dto.add(new ReviewDto(rev.getId(), rev.getRate(), rev.getReview()));
+            dto.add(new ReviewDto(rev.getRate(), rev.getReview()));
         }
         return dto;
     }
