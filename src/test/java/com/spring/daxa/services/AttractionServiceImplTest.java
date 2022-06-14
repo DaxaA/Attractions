@@ -4,7 +4,6 @@ import com.spring.daxa.dto.ReviewDto;
 import com.spring.daxa.entity.Attraction;
 import com.spring.daxa.entity.City;
 import com.spring.daxa.entity.Review;
-import com.spring.daxa.enums.AttractionFields;
 import com.spring.daxa.enums.Category;
 import com.spring.daxa.repositories.AttractionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,19 +14,14 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
@@ -36,12 +30,6 @@ class AttractionServiceImplTest {
     private AttractionRepository attractionRepository;
     @Mock
     private EntityManager entityManager;
-    /*@Mock
-    private CriteriaBuilder criteriaBuilder;
-    @Mock
-    private CriteriaQuery<Attraction> criteriaQuery;
-    @Mock
-    private Root<Attraction> root;*/
     @InjectMocks
     @Autowired
     private AttractionServiceImpl attractionService;
@@ -112,20 +100,6 @@ class AttractionServiceImplTest {
         List<Attraction> attractionList = attractionService.showAllAttractions();
         assertEquals(attractionList, attractions);
     }
-
-    /*@Test
-    void getByCityName() {
-        when(entityManager.getCriteriaBuilder()).thenReturn(criteriaBuilder);
-        criteriaQuery = criteriaBuilder.createQuery(Attraction.class);
-        when(criteriaBuilder.createQuery(Attraction.class)).thenReturn(criteriaQuery);
-        root = criteriaQuery.from(Attraction.class);
-        when(criteriaQuery.from(Attraction.class)).thenReturn(root);
-        List<Attraction> attractionList = attractionService.getAttractionByCityName("Moscow");
-        for (Attraction a : attractionList) {
-            System.out.println(a.getName());
-            assertEquals(a.getCity().getName(), "Moscow");
-        }
-    }*/
 
     @Test
     void getInfoAndMidRate() {
