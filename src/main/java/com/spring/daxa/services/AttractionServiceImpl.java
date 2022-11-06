@@ -3,14 +3,17 @@ package com.spring.daxa.services;
 import com.spring.daxa.dto.AttractionDto;
 import com.spring.daxa.dto.ReviewDto;
 import com.spring.daxa.entity.Attraction;
+import com.spring.daxa.entity.City;
 import com.spring.daxa.entity.Review;
 import com.spring.daxa.enums.AttractionFields;
 import com.spring.daxa.enums.Category;
 import com.spring.daxa.repositories.AttractionRepository;
 import com.spring.daxa.repositories.AttractionRepositoryOwn;
+import com.spring.daxa.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.module.FindException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +48,21 @@ public class AttractionServiceImpl implements AttractionService {
         return attractionRepository.findAll();
     }
 
+    @Override
+    public Attraction addNewAttraction(Attraction attraction) {
+        attractionRepository.save(attraction);
+        return attraction;
+    }
+
+    @Override
+    public Attraction updateAttraction(Attraction attraction) {
+        if (attractionRepository.findById(attraction.getId()).isPresent()) {
+            attractionRepository.save(attraction);
+            return attraction;
+        } else {
+            throw new FindException();
+        }
+    }
 
     //lis of nearby attractions in a city
     @Override

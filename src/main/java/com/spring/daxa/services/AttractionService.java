@@ -18,4 +18,6 @@ public interface AttractionService {
     List<AttractionDto> createAttractionList(List<Attraction> attractions);
     List<ReviewDto> showReviewList(String attraction);
     void setReview(String attraction, Integer rate, String review);
+    Attraction addNewAttraction(Attraction attraction);
+    Attraction updateAttraction(Attraction attraction);
 }
