@@ -10,14 +10,13 @@ import com.spring.daxa.enums.Category;
 import com.spring.daxa.repositories.AttractionRepository;
 import com.spring.daxa.repositories.AttractionRepositoryOwn;
 import com.spring.daxa.repositories.CityRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.FindException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AttractionServiceImpl implements AttractionService {
@@ -55,12 +54,13 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public Attraction updateAttraction(Attraction attraction) {
-        if (attractionRepository.findById(attraction.getId()).isPresent()) {
+    public Attraction updateAttraction(Attraction attraction){
+        Attraction actual = attractionRepository.findAttractionById(attraction.getId()).orElse(null);
+        if (actual != null) {
             attractionRepository.save(attraction);
             return attraction;
         } else {
-            throw new FindException();
+            throw new NoSuchElementException("Not found");
         }
     }
 

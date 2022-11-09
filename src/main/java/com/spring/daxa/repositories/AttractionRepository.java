@@ -6,9 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AttractionRepository extends JpaRepository<Attraction, Long> {
     @Query(value = "select information, middle_rate from attractions where name = ?1", nativeQuery = true)
     List<Object> getInformationAndMiddleRate(String attraction);
+    Optional<Attraction> findAttractionById(Long id);
 }
