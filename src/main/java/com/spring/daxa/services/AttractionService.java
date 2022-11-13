@@ -19,5 +19,5 @@ public interface AttractionService {
     List<ReviewDto> showReviewList(String attraction);
     void setReview(String attraction, Integer rate, String review);
     Attraction addNewAttraction(Attraction attraction);
-    Attraction updateAttraction(Attraction attraction);
+    AttractionDto updateAttraction(AttractionDto attractionDto);
 }

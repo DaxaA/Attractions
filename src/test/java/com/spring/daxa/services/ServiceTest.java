@@ -1,10 +1,12 @@
 package com.spring.daxa.services;
 
+import com.spring.daxa.dto.AttractionDto;
 import com.spring.daxa.entity.Attraction;
 import com.spring.daxa.entity.City;
 import com.spring.daxa.entity.Review;
 import com.spring.daxa.enums.AttractionFields;
 import com.spring.daxa.enums.Category;
+import com.spring.daxa.mapper.AttractionMapper;
 import com.spring.daxa.repositories.AttractionRepository;
 import com.spring.daxa.repositories.AttractionRepositoryOwnImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
@@ -24,6 +27,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ServiceTest {
+    @Spy
+    private static AttractionMapper attractionMapper;
     @Mock
     private static AttractionRepository attractionRepository;
     @Mock
@@ -45,7 +50,7 @@ class ServiceTest {
 
     @BeforeEach
     void setUp() {
-        attractionService = new AttractionServiceImpl(attractionRepository, attractionRepositoryOwn);
+        attractionService = new AttractionServiceImpl(attractionRepository, attractionRepositoryOwn, attractionMapper);
         fieldsMap = new HashMap<>();
         moscow.setName("Moscow");
         california.setName("California");
@@ -115,23 +120,30 @@ class ServiceTest {
                 moscow
         );
         Attraction actual = attractionService.addNewAttraction(a);
-        attractions.add(a);
-        Attraction founded = attractions.get(attractions.size()-1);
-        assertEquals(actual.getId(), founded.getId());
-        assertEquals(actual.getName(), founded.getName());
-        assertEquals(actual.getCategory(), founded.getCategory());
-        assertEquals(actual.getLongitude(), founded.getLongitude());
-        assertEquals(actual.getLatitude(), founded.getLatitude());
-        assertEquals(actual.getInformation(), founded.getInformation());
-        assertEquals(actual.getCity(), founded.getCity());
+        assertEquals(actual.getId(), a.getId());
+        assertEquals(actual.getName(), a.getName());
+        assertEquals(actual.getCategory(), a.getCategory());
+        assertEquals(actual.getLongitude(), a.getLongitude());
+        assertEquals(actual.getLatitude(), a.getLatitude());
+        assertEquals(actual.getInformation(), a.getInformation());
+        assertEquals(actual.getCity(), a.getCity());
         //verify(attractionRepository, times(1)).save(a);
     }
 
     @Test
     void update_attraction() {
-        attraction3.setInformation("new info");
+        AttractionDto attractionDto = new AttractionDto(
+                3L,
+                "gallery",
+                Category.CULTURE,
+                42.1,
+                9.8,
+                "new info",
+                attraction3.getMidRate(),
+                ny.getName()
+        );
         when(attractionRepository.findAttractionById(attraction3.getId())).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> attractionService.updateAttraction(attraction3));
+        assertThrows(NoSuchElementException.class, () -> attractionService.updateAttraction(attractionDto));
         //verify(attractionRepository, times(1)).findById(attraction3.getId());
     }
 }

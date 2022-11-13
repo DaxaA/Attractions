@@ -3,32 +3,25 @@ package com.spring.daxa.services;
 import com.spring.daxa.dto.AttractionDto;
 import com.spring.daxa.dto.ReviewDto;
 import com.spring.daxa.entity.Attraction;
-import com.spring.daxa.entity.City;
 import com.spring.daxa.entity.Review;
 import com.spring.daxa.enums.AttractionFields;
 import com.spring.daxa.enums.Category;
+import com.spring.daxa.mapper.AttractionMapper;
 import com.spring.daxa.repositories.AttractionRepository;
 import com.spring.daxa.repositories.AttractionRepositoryOwn;
-import com.spring.daxa.repositories.CityRepository;
-import org.hibernate.ObjectNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.FindException;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class AttractionServiceImpl implements AttractionService {
     private final AttractionRepository attractionRepository;
     private final AttractionRepositoryOwn attractionRepositoryOwn;
     Map<AttractionFields, Object> fieldsMap;
-
-    @Autowired
-    public AttractionServiceImpl(AttractionRepository attractionRepository, AttractionRepositoryOwn attractionRepositoryOwn) {
-        this.attractionRepository = attractionRepository;
-        this.attractionRepositoryOwn = attractionRepositoryOwn;
-    }
+    private final AttractionMapper attractionMapper;
 
     //generating clear output for attraction
     @Override
@@ -54,14 +47,10 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public Attraction updateAttraction(Attraction attraction){
-        Attraction actual = attractionRepository.findAttractionById(attraction.getId()).orElse(null);
-        if (actual != null) {
-            attractionRepository.save(attraction);
-            return attraction;
-        } else {
-            throw new NoSuchElementException("Not found");
-        }
+    public AttractionDto updateAttraction(AttractionDto attractionDto){
+        Attraction actual = attractionRepository.findAttractionById(attractionDto.getId()).orElseThrow();
+        actual.setInformation(attractionDto.getInformation());
+        return attractionMapper.toDto(attractionRepository.saveAndFlush(actual));
     }
 
     //lis of nearby attractions in a city
