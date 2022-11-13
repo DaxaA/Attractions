@@ -42,7 +42,7 @@ public class AttractionServiceImpl implements AttractionService {
 
     @Override
     public Attraction addNewAttraction(Attraction attraction) {
-        attractionRepository.save(attraction);
+        attractionRepository.saveAndFlush(attraction);
         return attraction;
     }
 
