@@ -6,27 +6,22 @@ import com.spring.daxa.entity.Attraction;
 import com.spring.daxa.entity.Review;
 import com.spring.daxa.enums.AttractionFields;
 import com.spring.daxa.enums.Category;
+import com.spring.daxa.mapper.AttractionMapper;
 import com.spring.daxa.repositories.AttractionRepository;
 import com.spring.daxa.repositories.AttractionRepositoryOwn;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class AttractionServiceImpl implements AttractionService {
     private final AttractionRepository attractionRepository;
     private final AttractionRepositoryOwn attractionRepositoryOwn;
     Map<AttractionFields, Object> fieldsMap;
-
-    @Autowired
-    public AttractionServiceImpl(AttractionRepository attractionRepository, AttractionRepositoryOwn attractionRepositoryOwn) {
-        this.attractionRepository = attractionRepository;
-        this.attractionRepositoryOwn = attractionRepositoryOwn;
-    }
+    private final AttractionMapper attractionMapper;
 
     //generating clear output for attraction
     @Override
@@ -45,6 +40,18 @@ public class AttractionServiceImpl implements AttractionService {
         return attractionRepository.findAll();
     }
 
+    @Override
+    public Attraction addNewAttraction(Attraction attraction) {
+        attractionRepository.saveAndFlush(attraction);
+        return attraction;
+    }
+
+    @Override
+    public AttractionDto updateAttraction(AttractionDto attractionDto){
+        Attraction actual = attractionRepository.findAttractionById(attractionDto.getId()).orElseThrow();
+        actual.setInformation(attractionDto.getInformation());
+        return attractionMapper.toDto(attractionRepository.saveAndFlush(actual));
+    }
 
     //lis of nearby attractions in a city
     @Override
