@@ -1,11 +1,4 @@
-/*drop table if exists public.user_role;
-drop table if exists public.role;
-drop table if exists public.user;
-drop table if exists public.attractions;
-drop table if exists public.cities;
-drop table if exists public.reviews;*/
-
-CREATE TABLE public.attractions (
+CREATE TABLE IF NOT EXISTS public.attractions (
     id int8 NOT NULL primary key ,
     category int4 NULL,
     information varchar(255) NULL,
@@ -15,18 +8,18 @@ CREATE TABLE public.attractions (
     "name" varchar(255) NULL,
     city_id int4 NULL
 );
-CREATE TABLE public.cities (
+CREATE TABLE IF NOT EXISTS public.cities (
     id int8 NOT NULL primary key,
     name varchar(255) NOT NULL,
     number int8 NULL
 );
-CREATE TABLE public.reviews (
+CREATE TABLE IF NOT EXISTS public.reviews (
     id int8 NOT NULL,
     rate int4 NULL,
     review varchar(255) NULL,
     attraction_id int8 NULL
 );
-CREATE TABLE public.users (
+CREATE TABLE IF NOT EXISTS public.users (
     id        int8 NOT NULL primary key,
     username  varchar(255) NOT NULL,
     name      varchar(255) NOT NULL,
@@ -35,17 +28,18 @@ CREATE TABLE public.users (
     email     varchar(100) NOT NULL,
     password  varchar(100) NOT NULL
 );
-create table public.role (
+CREATE TABLE IF NOT EXISTS public.role (
     id int primary key,
     name varchar(25) NOT NULL
 );
-create table public.user_role (
+CREATE TABLE IF NOT EXISTS public.user_role (
     id int8 primary key,
     user_id int8 NOT NULL
         references public.users(id),
     role_id int8 NOT NULL
         references public.role(id)
 );
-insert into public.role values
-    (1, 'admin'),
+INSERT INTO public.role VALUES
+    (1, 'admin');
+INSERT INTO public.role VALUES
     (2, 'user');
