@@ -1,7 +1,7 @@
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgresAttraction
+    url: jdbc:postgresql://localhost:5432/attraction
     username: rootuser
     password: trust
   jpa:
