@@ -1,4 +1,4 @@
-package com.spring.daxa.mapper;
+package com.spring.daxa.services.mapper;
 
 import com.spring.daxa.dto.AttractionDto;
 import com.spring.daxa.entity.Attraction;

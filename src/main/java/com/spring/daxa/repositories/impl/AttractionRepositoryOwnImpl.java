@@ -1,7 +1,8 @@
-package com.spring.daxa.repositories;
+package com.spring.daxa.repositories.impl;
 
 import com.spring.daxa.entity.Attraction;
 import com.spring.daxa.enums.AttractionFields;
+import com.spring.daxa.repositories.AttractionRepositoryOwn;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
