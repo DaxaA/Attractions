@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    format:
+      date: dd/MM/yyyy
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/attraction
@@ -10,4 +13,13 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
+  flyway:
+    user: rootuser
+    password: trust
+    schemas: public
+    validate-on-migrate: true
+    baseline-on-migrate: true
+jwt:
+  secret: secret
+  time-life: 30
