@@ -7,13 +7,15 @@ import com.spring.daxa.entity.Review;
 import com.spring.daxa.enums.AttractionFields;
 import com.spring.daxa.enums.Category;
 import com.spring.daxa.repositories.AttractionRepository;
-import com.spring.daxa.repositories.AttractionRepositoryOwnImpl;
+import com.spring.daxa.repositories.impl.AttractionRepositoryOwnImpl;
+import com.spring.daxa.services.mapper.AttractionMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -28,6 +30,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AttractionServiceImplTest {
+    @Spy
+    private AttractionMapper attractionMapper;
     @Mock
     private AttractionRepository attractionRepository;
     @Mock
@@ -50,7 +54,7 @@ class AttractionServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        attractionService = new AttractionServiceImpl(attractionRepository, attractionRepositoryOwn);
+        attractionService = new AttractionServiceImpl(attractionRepository, attractionRepositoryOwn, attractionMapper);
         fieldsMap = new HashMap<>();
         moscow.setName("Moscow");
         california.setName("California");
