@@ -23,3 +23,5 @@ spring:
 jwt:
   secret: secret
   time-life: 30
+server:
+  port: 8081
