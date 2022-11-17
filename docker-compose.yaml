@@ -1,0 +1,25 @@
+version: '3.1'
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - .:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_DB=attraction
+      - POSTGRES_USER=rootuser
+      - POSTGRES_PASSWORD=trust
+  app:
+    image: 'attractions.jar'
+    command: ./attraction-app.jar
+    depends_on:
+      - postgres
+    ports:
+      - "8081:8081"
+    links:
+      - "postgres:database"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/attraction
+      - SPRING_DATASOURCE_USERNAME=rootuser
+      - SPRING_DATASOURCE_PASSWORD=trust
